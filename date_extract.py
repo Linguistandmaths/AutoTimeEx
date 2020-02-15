@@ -2,7 +2,7 @@
 
 import re
 
-triggers = ['today', 'yesterday', 'tomorrow', 'at the weekend']
+triggers = ['today', 'yesterday', 'tomorrow', 'at the weekend', 'tonight']
 months_long = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 months_short = ['Jan', 'Feb', 'Mar', 'Apr', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
 week_long = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
@@ -59,6 +59,3 @@ print(result)
 for t in token:
     if (t == 'on') and (token[token.index(t)+1] in day_week):
         result.append(token[token.index(t)+1])
-
-
-12.10.2020 . 30 человек

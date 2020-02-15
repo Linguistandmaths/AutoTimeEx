@@ -1,0 +1,25 @@
+weekly
+monthly
+hourly
+yearly
+annually
+daily
+every day
+every month
+every week
+twice a week
+twice a month
+twice a year
+twice a day
+once a week
+once a month
+once a year
+once a day
+three times a week
+three times a day
+three times a year
+three times a month
+four times a week
+four times a day
+four times a year
+four times a month

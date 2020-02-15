@@ -1,0 +1,4 @@
+weekly
+every day
+twice a week
+twice a month

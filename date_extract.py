@@ -59,6 +59,3 @@ print(result)
 for t in token:
     if (t == 'on') and (token[token.index(t)+1] in day_week):
         result.append(token[token.index(t)+1])
-
-
-12.10.2020 . 30 человек

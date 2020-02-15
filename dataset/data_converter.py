@@ -9,7 +9,7 @@ from ahocorapy.keywordtree import KeywordTree
 
 class DataConverter:
     
-    FIELDNAMES = ['token', 'type']
+    FIELDNAMES = ['token', 'tag']
 
     def __init__(self):
         self._xml_files_dir = ''
@@ -27,6 +27,7 @@ class DataConverter:
             csv_fname = '{}.csv'.format(xml_fname)
             with open(os.path.join(self._csv_files_dir, csv_fname), 'w') as csv_f:
                 writer = csv.DictWriter(csv_f, fieldnames=self.FIELDNAMES)
+                writer.writeheader()
                 tree = ET.parse(os.path.join(self._xml_files_dir, xml_file))
                 root = tree.getroot()
                 all_text, time_expressions = self._extract_text_and_time_expressions(root)
@@ -38,12 +39,12 @@ class DataConverter:
                     if i in token_id2token_type:
                         writer.writerow({
                             'token': token,
-                            'type': token_id2token_type[i]
+                            'tag': token_id2token_type[i]
                         })
                     else:
                         writer.writerow({
                             'token': token,
-                            'type': 'O'
+                            'tag': 'O'
                         })
 
     def _get_token_id2token_type(self, all_tokens: List[str], time_expressions: Dict[str, List[str]]) -> Dict[int, str]:

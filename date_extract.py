@@ -12,22 +12,6 @@ months = months_long + months_short
 day_week = week_short + week_long
 
 
-# input
-string = 'I went to university Saturday the 13th of April, 2019'
-# patterns = [r'']
-# result = re.findall(pattern[0], string)
-# print(result)
-# preprocessing
-extra_symbols = []
-clear_string = re.sub(r',', ' ', string)
-clear_string = re.sub(r'the', '', clear_string)
-clear_string = re.sub(r'of', '', clear_string)
-print(clear_string)
-tokens = clear_string.split()
-print(tokens)
-
-
-
 # get extracted information DATE with words
 result = []
 for t in tokens:
@@ -59,3 +43,26 @@ print(result)
 for t in token:
     if (t == 'on') and (token[token.index(t)+1] in day_week):
         result.append(token[token.index(t)+1])
+
+
+
+def _extract_date(text):
+    ''' перебираем токены из текста, список с кортежами храним в date '''
+    set = []
+    for token in text:
+    # проверяем для примеров из одного слова
+        if token in set_examples:
+            set.append(token, 'B-SET')
+            continue
+        else:
+               #перебираем список из примеров из файла
+            for set_ex in set_examples:
+                if set_ex.startswith(token):
+                    set.append(token, 'B-SET')
+                    break
+                elif token in set_ex:
+                    set.append(token, 'I-SET')
+                    break
+                else:
+                    set.append(token, 'O')
+    return date

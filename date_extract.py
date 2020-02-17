@@ -39,20 +39,50 @@ for t in tokens:
                 pass
 print(result)
 
-# on Tuesday
-for t in token:
-    if (t == 'on') and (token[token.index(t)+1] in day_week):
-        result.append(token[token.index(t)+1])
 
-
-
+# функция ищет нечисловые паттерны из таблицы
 def _extract_date(text):
-    date = []
-    # перебираем токены из текста, список с кортежами храним в date
+    dates = []
+    # перебираем токены из текста, список с кортежами храним в dates
     for token in text:
-        if token in months:
+        cur_pos = text.index(token)
+        # определяем день недели это или нет
+        if token in day_week:
+            dates.append((token, 'B-DATE'))
+            continue
+        # проверяем артиклб на причастность к временной фразе
+        elif token=='the':
+            if token[cur_pos-1] in day_week:
+                dates.append((token, 'I-DATE'))
+                continue
+            # проверяем идёт ли дальше порядковое
+            elif (int(token[cur_pos+1][:-2]) ) and ((token[cur_pos+1].endswith('d')) or (token[cur_pos+1].endswith('th'))):
+                dates.append((token, 'I-DATE'))
+            else:
+                dates.append((token, 'O'))
+                continue
+        # ищем токен с названием месяца
+        elif token in months:
+            # проверяем есть ли до него или после числа
+            if token[cur_pos - 1]
+                dates.append((token, 'I-DATE'))
+                continue
+            elif token[cur_pos + 1]
+                dates.append((token, 'B-DATE'))
+                continue
+        # проверка числового токена
+        if len(token) <= 2:
+
+
+        # проверка числа на то, что это год
+        if len(token) <= 4:
 
 
 
 
-    return date
+    return dates
+
+
+dates.append((token, 'O'))
+    dates.append((token, 'B-DATE'))
+    dates.append((token, 'I-DATE'))

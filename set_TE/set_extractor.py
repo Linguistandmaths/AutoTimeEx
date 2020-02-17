@@ -7,18 +7,18 @@ def _extract_set(text, file_with_set):
     for token in text:
     # проверяем для примеров из одного слова
         if token in set_examples:
-            set.append(token, 'B-SET')
+            set.append((token, 'B-SET'))
             continue 
         else:
                #перебираем список из примеров из файла
             for set_ex in set_examples:
                 if set_ex.startswith(token):
-                    set.append(token, 'B-SET') 
+                    set.append((token, 'B-SET')) 
                     break
                 elif token in set_ex:
-                    set.append(token, 'I-SET') 
+                    set.append((token, 'I-SET')) 
                     break
                 else:
-                    set.append(token, 'O')
+                    set.append((token, 'O'))
     return set
        

@@ -29,7 +29,7 @@ class DatasetLoader:
 
 
 if __name__ == '__main__':
-    path_to_data_dir = '/Users/bruches/Documents/Students/Mezenceva_Zavarzina/csv_dataset/train'
+    path_to_data_dir = '/Users/bruches/PycharmProjects/AutoTimeEx/dataset/train'
     dataset_loader = DatasetLoader(path_to_data_dir)
     sentences = dataset_loader.load_dataset()
     print('Loaded {} sentences'.format(str(len(sentences))))

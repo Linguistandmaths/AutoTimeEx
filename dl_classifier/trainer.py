@@ -1,5 +1,3 @@
-
-
 import tensorflow as tf
 import tensorflow_hub as hub
 from keras import backend as K
@@ -19,7 +17,7 @@ print(tf.__version__)
 class Trainer:
 
     def __init__(self):
-        data_dir = '/Users/bruches/Documents/Students/Mezenceva_Zavarzina/csv_dataset/train'
+        data_dir = '/Users/bruches/PycharmProjects/AutoTimeEx/dataset/train'
         self._data_loader = DatasetLoader(data_dir)
         self._vectorizer = Vectorizer()
 

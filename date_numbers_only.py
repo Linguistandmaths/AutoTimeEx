@@ -12,8 +12,7 @@ def date_extraction(text):
     finalRuleList = [threeGroupsDate, yearFirst, yearLast, yearLastShort, monthAndYear, dateAndMonth]
     finalRule = '|'.join(finalRuleList)
     result = re.findall(finalRule, text)
-    return(result)
-
+    return result
 
 
 if __name__ == '__main__':

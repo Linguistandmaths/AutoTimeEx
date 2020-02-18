@@ -23,3 +23,24 @@ four times a week
 four times a day
 four times a year
 four times a month
+each July
+each January
+each February
+each March
+each April
+each May
+each June
+each August
+each September
+each October
+each November
+each December
+each Thursday
+each Monday
+each Tuesday
+each Wednesday
+each Saturday
+each Sunday
+each Friday
+each month
+each year

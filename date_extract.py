@@ -4,7 +4,7 @@ import re
 
 triggers = ['today', 'yesterday', 'tomorrow', 'at the weekend', 'tonight']
 months_long = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-months_short = ['Jan', 'Feb', 'Mar', 'Apr', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
+months_short = ['Jan.', 'Feb.', 'Mar.', 'Apr.', 'Aug.', 'Sept.', 'Oct.', 'Nov.', 'Dec.']
 week_long = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 week_short = ['Mon', 'Tue', 'Wed', 'Sat', 'Sun']
 numbers = ['first', 'second']

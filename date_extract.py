@@ -50,38 +50,53 @@ def _extract_date(text):
         if token in day_week:
             dates.append((token, 'B-DATE'))
             continue
-        # проверяем артиклб на причастность к временной фразе
+        # проверяем артикль на причастность к временной фразе
         elif token=='the':
             if token[cur_pos-1] in day_week:
                 dates.append((token, 'I-DATE'))
                 continue
-            # проверяем идёт ли дальше порядковое
-            elif (int(token[cur_pos+1][:-2]) ) and ((token[cur_pos+1].endswith('d')) or (token[cur_pos+1].endswith('th'))):
-                dates.append((token, 'I-DATE'))
+            # проверяем идёт ли дальше число
+            elif token[cur_pos+1].isnumeric():
+                # удостоверяемся, что дальше есть слово. обозначающее месяц
+                if (token[cur_pos+2] in months) or (token[cur_pos+3] in months):
+                    # смотрим если перед артиклем день недели
+                    if token[cur_pos-1] in day_week:
+                        dates.append((token, 'I-DATE'))
+                        continue
+                    else:
+                        dates.append((token, 'B-DATE'))
+                        continue
             else:
                 dates.append((token, 'O'))
                 continue
         # ищем токен с названием месяца
         elif token in months:
-            # проверяем есть ли до него или после числа
-            if token[cur_pos - 1]
+            # проверяем есть ли до него или после числа или день недели
+            if token[cur_pos - 1].isdigit() or (token[cur_pos - 1] in day_week):
                 dates.append((token, 'I-DATE'))
                 continue
-            elif token[cur_pos + 1]
+            else:
                 dates.append((token, 'B-DATE'))
                 continue
         # проверка числового токена
-        if len(token) <= 2:
-
-
+        elif (len(token) <= 2) and (token.isdigit()=='True'):
+            dates.append((token, 'B-DATE'))
+        # 1790s такие типы
+        elif (len(token) <= 5) and ((token.isnumeric()=='True') or (token.endswith('s'))):
+            dates.append((token, 'B-DATE'))
         # проверка числа на то, что это год
-        if len(token) <= 4:
+        elif  (len(token)<=4) and (token.isdigit()=='True'):
+            dates.append((token, 'B-DATE'))
 
 
 
 
-    return dates
+return dates
 
+
+(token.isdigit()=='True') or ()
+
+and (token[cur_pos+1].endswith('d') or token[cur_pos+1].endswith('th'))
 
 dates.append((token, 'O'))
     dates.append((token, 'B-DATE'))

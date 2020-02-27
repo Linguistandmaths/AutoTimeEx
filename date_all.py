@@ -7,7 +7,7 @@ class Pattern:
     def __init__(self):
         pass
 
-    def extract_date_with_numbers(self, tokens):
+    def _extract_date_with_numbers(self, tokens):
         threeGroupsDate = r'\d{2,4}[\/\-.]\d{2}[.\-\/]\d{2,4}'  # 14.12.1999, 1999.12.14, 12.14.1999
         yearFirst = r'[1-9]\d{3}[\.-\/][0-1]\d[\.-\/][0-3]\d'  # 1999.14.12
         yearLast = r'[0-3]\d{1}[\.-\/][0,1]\d[\.-\/][1-9]\d{3}'  # 14.12.1999
@@ -20,10 +20,98 @@ class Pattern:
         result = re.findall(finalRule, text)
         return result[0], 'DATE'
 
+
     def extract_date_type1(self, tokens):
-        pattern_type = 'Jan.', 'Feb.', 'Mar.', 'Apr.', 'Aug.', 'Sept.', 'Oct.', 'Nov.', 'Dec.'
-        result = re.findall(finalRule, text)
+        """
+        типы соответствуют таблице classification of TE
+        :param tokens:
+        :return:
+        """
+        text = ' '.join(tokens)
+        pattern_type = r'(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|Mon.|Tue.Wen.|Thu|Fri|Sat|Sun),.(January|February|March|April|May|June|July|August|September|October|November|December).\d,\d{4}'
+        result = re.findall(pattern_type, text)
         return result[0], 'DATE'
+
+
+    def extract_date_type2(self, tokens):
+        text = ' '.join(tokens)
+        pattern_type = r'(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|Mon.|Tue.Wen.|Thu.|Fri.|Sat.|Sun.),.\d{1,2}.(January|February|March|April|May|June|July|August|September|October|November|December).\d{4}'
+        result = re.findall(pattern_type, text)
+        return result[0], 'DATE'
+
+
+    def extract_date_type3(self, tokens):
+        text = ' '.join(tokens)
+        pattern_type = r'(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|Mon.|Tue.Wen.|Thu.|Fri.|Sat.|Sun.).(the).\d{1,2}(th|d).(of).(January|February|March|April|May|June|July|August|September|October|November|December),.\d{4}'
+        result = re.findall(pattern_type, text)
+        return result[0], 'DATE'
+
+
+    def extract_date_type4(self, tokens):
+        text = ' '.join(tokens)
+        pattern_type = r'\d{1,2}(th|d).(of).(January|February|March|April|May|June|July|August|September|October|November|December).\d{4}'
+        result = re.findall(pattern_type, text)
+        return result[0], 'DATE'
+
+
+    def extract_date_type5(self, tokens):
+        text = ' '.join(tokens)
+        pattern_type = r'the.\d{1,2}(th|d).(of).(January|February|March|April|May|June|July|August|September|October|November|December),.\d{4}'
+        result = re.findall(pattern_type, text)
+        return result[0], 'DATE'
+
+
+    def extract_date_type6(self, tokens):
+        text = ' '.join(tokens)
+        pattern_type = r'(January|February|March|April|May|June|July|August|September|October|November|December|Jan.|Feb.|Mar.|Apr.|Aug.|Sept.|Oct.|Nov.|Dec.).\d'
+        result = re.findall(pattern_type, text)
+        return result[0], 'DATE'
+
+
+    def extract_date_type7(self, tokens):
+        text = ' '.join(tokens)
+        pattern_type = r'\d{1,2}.(January|February|March|April|May|June|July|August|September|October|November|December|Jan.|Feb.|Mar.|Apr.|Aug.|Sept.|Oct.|Nov.|Dec.)'
+        result = re.findall(pattern_type, text)
+        return result[0], 'DATE'
+
+
+
+    def extract_date_type8(self, tokens):
+        text = ' '.join(tokens)
+        pattern_type = r'(January|February|March|April|May|June|July|August|September|October|November|December|Jan.|Feb.|Mar.|Apr.|Aug.|Sept.|Oct.|Nov.|Dec.).\d{4}'
+        result = re.findall(pattern_type, text)
+        return result[0], 'DATE'
+
+
+    def merge_date_extractions(self, tokens):
+        """
+        соединяем все рещультаты в одно целое
+        :param tokens:
+        :return:
+        """
+        extracts = []
+        extracts1, = extract_date_type1(tokens)
+        if extracts1 != []:
+            extracts.append(extracts1)
+        extracts2, = extract_date_type1(tokens)
+        if extracts1 != []:
+            extracts.append(extracts2)
+        extracts3, = extract_date_type1(tokens)
+        if extracts2 != []:
+            extracts.append(extracts3)
+        extracts1, = extract_date_type1(tokens)
+        if extracts1 != []:
+            extracts.append(extracts1)
+        extracts.append(extract_date_type2(tokens))
+        extracts.append(_extract_date_with_numbers(tokens))
+        extracts.append(extract_date_type3(tokens))
+        extracts.append(extract_date_type4(tokens))
+        extracts.append(extract_date_type5(tokens))
+        extracts.append(extract_date_type6(tokens))
+        extracts.append(extract_date_type7(tokens))
+        extracts.append(extract_date_type8(tokens))
+
+        return extracts
 
     def _create_kw_tree(self, tokens_date):
         """

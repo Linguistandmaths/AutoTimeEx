@@ -1,4 +1,5 @@
 import re
+import pandas as pd
 from ahocorapy.keywordtree import KeywordTree
 
 
@@ -174,3 +175,10 @@ class Pattern:
 if __name__ == '__main__':
     pattern = Pattern()
     pattern.extract('It was Friday , October 1 , 1999')
+
+# make file for all test dataset
+test_text = pd.read_csv()
+if __name__ == '__main__':
+    pattern = Pattern()
+    pattern.extract(test_text)
+

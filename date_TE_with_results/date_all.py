@@ -33,49 +33,49 @@ class Pattern:
         text = ' '.join(tokens)
         pattern_type = r'(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|Mon.|Tue.Wen.|Thu|Fri|Sat|Sun),.(January|February|March|April|May|June|July|August|September|October|November|December).\d,\d{4}'
         result = re.findall(pattern_type, text)
-        return result[0]
+        return result
 
 
     def extract_date_type2(self, tokens):
         text = ' '.join(tokens)
         pattern_type = r'(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|Mon.|Tue.Wen.|Thu.|Fri.|Sat.|Sun.),.\d{1,2}.(January|February|March|April|May|June|July|August|September|October|November|December).\d{4}'
         result = re.findall(pattern_type, text)
-        return result[0]
+        return result
 
 
     def extract_date_type3(self, tokens):
         text = ' '.join(tokens)
         pattern_type = r'(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|Mon.|Tue.Wen.|Thu.|Fri.|Sat.|Sun.).(the).\d{1,2}(th|d).(of).(January|February|March|April|May|June|July|August|September|October|November|December),.\d{4}'
         result = re.findall(pattern_type, text)
-        return result[0]
+        return result
 
 
     def extract_date_type4(self, tokens):
         text = ' '.join(tokens)
         pattern_type = r'\d{1,2}(th|d).(of).(January|February|March|April|May|June|July|August|September|October|November|December).\d{4}'
         result = re.findall(pattern_type, text)
-        return result[0]
+        return result
 
 
     def extract_date_type5(self, tokens):
         text = ' '.join(tokens)
         pattern_type = r'the.\d{1,2}(th|d).(of).(January|February|March|April|May|June|July|August|September|October|November|December),.\d{4}'
         result = re.findall(pattern_type, text)
-        return result[0], 'DATE'
+        return result
 
 
     def extract_date_type6(self, tokens):
         text = ' '.join(tokens)
         pattern_type = r'(January|February|March|April|May|June|July|August|September|October|November|December|Jan.|Feb.|Mar.|Apr.|Aug.|Sept.|Oct.|Nov.|Dec.).\d'
         result = re.findall(pattern_type, text)
-        return result[0]
+        return result
 
 
     def extract_date_type7(self, tokens):
         text = ' '.join(tokens)
         pattern_type = r'\d{1,2}.(January|February|March|April|May|June|July|August|September|October|November|December|Jan.|Feb.|Mar.|Apr.|Aug.|Sept.|Oct.|Nov.|Dec.)'
         result = re.findall(pattern_type, text)
-        return result[0]
+        return result
 
 
 
@@ -83,7 +83,7 @@ class Pattern:
         text = ' '.join(tokens)
         pattern_type = r'(January|February|March|April|May|June|July|August|September|October|November|December|Jan.|Feb.|Mar.|Apr.|Aug.|Sept.|Oct.|Nov.|Dec.).\d{4}'
         result = re.findall(pattern_type, text)
-        return result[0]
+        return result
 
 
     def merge_date_extractions(self, tokens):
@@ -92,9 +92,9 @@ class Pattern:
         :param tokens: входной список токенов
         :return: список из токенов, которые выделились всеми регулярными выражениями
         """
-        extracts = [extract_date_type1(tokens), extract_date_type2(tokens), extract_date_type3(tokens),
-                    extract_date_type4(tokens), extract_date_type5(tokens), extract_date_type6(tokens),
-                    extract_date_type7(tokens), extract_date_type8(tokens)]
+        extracts = [self.extract_date_type1(tokens), self.extract_date_type2(tokens), self.extract_date_type3(tokens),
+                    self.extract_date_type4(tokens), self.extract_date_type5(tokens), self.extract_date_type6(tokens),
+                    self.extract_date_type7(tokens), self.extract_date_type8(tokens)]
         # очищаем от нулевых элементов
         extracts = list(filter(None, extracts))
         return extracts
@@ -102,7 +102,7 @@ class Pattern:
     def _create_kw_tree(self, tokens_date):
         """
         Создаёт суффиксное дерево для конкретного типа временного выражения
-        :param time_expressions:
+        :param time_expressions: date
         :return: суффиксное дерево
         """
         kwtree = KeywordTree()

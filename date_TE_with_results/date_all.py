@@ -21,7 +21,7 @@ class Pattern:
         finalRule = '|'.join(finalRuleList)
         text = ' '.join(tokens)
         result = re.findall(finalRule, text)
-        return result[0]
+        return result
 
 
     def extract_date_type1(self, tokens):
@@ -31,14 +31,14 @@ class Pattern:
         :return:
         """
         text = ' '.join(tokens)
-        pattern_type = r'(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|Mon.|Tue.Wen.|Thu|Fri|Sat|Sun),.(January|February|March|April|May|June|July|August|September|October|November|December).\d,\d{4}'
+        pattern_type = r"(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|Mon.|Tue.Wen.|Thu|Fri|Sat|Sun).,.(January|February|March|April|May|June|July|August|September|October|November|December).,.\d.,.\d{4}"
         result = re.findall(pattern_type, text)
         return result
 
 
     def extract_date_type2(self, tokens):
         text = ' '.join(tokens)
-        pattern_type = r'(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|Mon.|Tue.Wen.|Thu.|Fri.|Sat.|Sun.),.\d{1,2}.(January|February|March|April|May|June|July|August|September|October|November|December).\d{4}'
+        pattern_type = r'(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|Mon.|Tue.Wen.|Thu.|Fri.|Sat.|Sun.).,.\d{1,2}.(January|February|March|April|May|June|July|August|September|October|November|December).\d{4}'
         result = re.findall(pattern_type, text)
         return result
 
@@ -90,11 +90,29 @@ class Pattern:
         """
         соединяем все рещультаты в одно целое
         :param tokens: входной список токенов
-        :return: список из токенов, которые выделились всеми регулярными выражениями
+        :return: список из списков токенов, которые выделились всеми регулярными выражениями
         """
-        extracts = [self.extract_date_type1(tokens), self.extract_date_type2(tokens), self.extract_date_type3(tokens),
-                    self.extract_date_type4(tokens), self.extract_date_type5(tokens), self.extract_date_type6(tokens),
-                    self.extract_date_type7(tokens), self.extract_date_type8(tokens)]
+
+        extracts = []
+        for lst in self._extract_date_with_numbers(tokens):
+            extracts.extend(lst)
+        for lst1 in self.extract_date_type1(tokens):
+            extracts.extend(lst1)
+        for lst2 in self.extract_date_type2(tokens):
+            extracts.extend(lst2)
+        for lst3 in self.extract_date_type3(tokens):
+            extracts.extend(lst3)
+        for lst4 in self.extract_date_type4(tokens):
+            extracts.extend(lst4)
+        for lst5 in self.extract_date_type5(tokens):
+            extracts.extend(lst5)
+        for lst6 in self.extract_date_type6(tokens):
+            extracts.extend(lst6)
+        for lst7 in self.extract_date_type7(tokens):
+            extracts.extend(lst7)
+        for lst8 in self.extract_date_type8(tokens):
+            extracts.extend(lst8)
+
         # очищаем от нулевых элементов
         extracts = list(filter(None, extracts))
         return extracts
@@ -108,8 +126,8 @@ class Pattern:
         """
         kwtree = KeywordTree()
         for date in tokens_date:
-         #   tokens = date.split()
-            kwtree.add(date)
+            tokens = date.split()
+            kwtree.add(tokens)
         kwtree.finalize()
         return kwtree
 
@@ -168,7 +186,8 @@ class Pattern:
 
 if __name__ == '__main__':
     pattern = Pattern()
-    pattern.extract('It was Friday , October 1 , 1999')
+    a = pattern.extract('It was Friday , October 1 , 1999')
+    print(a)
 
 
 # считываем файлы с тестовой выборкой, токены соединяются по точке

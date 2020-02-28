@@ -1664,7 +1664,7 @@ towers,O
 will,O
 begin,O
 on,O
-April,B-DATE
+April,O
 7,O
 ",",O
 the,O
@@ -2792,7 +2792,7 @@ for,O
 the,O
 raid,O
 in,O
-May,B-DATE
+May,O
 2010,O
 on,O
 the,O
@@ -4030,7 +4030,7 @@ supplies,O
 to,O
 Gaza,O
 in,O
-May,B-DATE
+May,O
 2010,O
 in,O
 spite,O

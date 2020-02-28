@@ -99,6 +99,7 @@ class Pattern:
         extracts = list(filter(None, extracts))
         return extracts
 
+
     def _create_kw_tree(self, tokens_date):
         """
         Создаёт суффиксное дерево для конкретного типа временного выражения
@@ -150,7 +151,10 @@ class Pattern:
         :param text: строка
         :return: список кортежей токенов в био разметке, полученной ранее
         """
-        all_tokens = text.split()
+        if type(text) == 'list':
+            all_tokens = text
+        else:
+            all_tokens = text.split()
         token_id2token_type = self._get_token_id2token_type(all_tokens, 'DATE')
 
         result_tuples = []
@@ -188,11 +192,11 @@ def load_dataset(path_to_data_dir):
 
 # process test dataset by rules
 if __name__ == '__main__':
-    path_to_data_dir = r'/Users/anast/PycharmProjects/AutoTimeEx2.0/dataset/test'
+    path_to_data_dir = r'/Users/anast/PycharmProjects/AutoTimeEx/test'
     sentences = load_dataset(path_to_data_dir)
     print('Loaded {} sentences'.format(str(len(sentences))))
     pattern = Pattern()
-    with open('date_result.csv') as result:
+    with open('date_result.csv', 'w') as result:
         writer = csv.writer(result)
         for sentence in sentences:
             res = pattern.extract(sentence)

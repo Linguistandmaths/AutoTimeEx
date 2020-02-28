@@ -146,6 +146,10 @@ class Pattern:
         return token_id2token_type
 
     def extract(self, text):
+        """
+        :param text: строка
+        :return: список кортежей токенов в био разметке, полученной ранее
+        """
         all_tokens = text.split()
         token_id2token_type = self._get_token_id2token_type(all_tokens, 'DATE')
 
@@ -153,7 +157,6 @@ class Pattern:
         for i, token in enumerate(all_tokens):
             if i in token_id2token_type:
                 result_tuples.append((token, token_id2token_type[i]))
-
             else:
                 result_tuples.append((token, 'O'))
         return result_tuples

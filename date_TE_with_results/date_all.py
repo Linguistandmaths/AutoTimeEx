@@ -151,7 +151,7 @@ class Pattern:
         :param text: строка
         :return: список кортежей токенов в био разметке, полученной ранее
         """
-        if type(text) == 'list':
+        if type(text) == list:
             all_tokens = text
         else:
             all_tokens = text.split()
@@ -181,12 +181,12 @@ def load_dataset(path_to_data_dir):
             sentence = []
             for row in reader:
                 if row['token'] == '.':
-                    sentence.append((row['token'], row['tag']))
+                    sentence.append(row['token'])
                     test_sentences.append(sentence)
                     sentence = []
                     continue
                 else:
-                    sentence.append((row['token'], row['tag']))
+                    sentence.append(row['token'])
     return test_sentences
 
 
@@ -196,7 +196,7 @@ if __name__ == '__main__':
     sentences = load_dataset(path_to_data_dir)
     print('Loaded {} sentences'.format(str(len(sentences))))
     pattern = Pattern()
-    with open('date_result.csv', 'w') as result:
+    with open('date_result.csv', 'w', encoding='utf-8') as result:
         writer = csv.writer(result)
         for sentence in sentences:
             res = pattern.extract(sentence)

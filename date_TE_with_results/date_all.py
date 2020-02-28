@@ -1,6 +1,6 @@
 import re
-import csv
 import os
+import csv
 from ahocorapy.keywordtree import KeywordTree
 from tqdm import tqdm
 
@@ -149,19 +149,22 @@ class Pattern:
         all_tokens = text.split()
         token_id2token_type = self._get_token_id2token_type(all_tokens, 'DATE')
 
+        result_tuples = []
         for i, token in enumerate(all_tokens):
             if i in token_id2token_type:
-                print(token, token_id2token_type[i])
+                result_tuples.append((token, token_id2token_type[i]))
 
             else:
-                print(token, 'O')
+                result_tuples.append((token, 'O'))
+        return result_tuples
 
 
 if __name__ == '__main__':
     pattern = Pattern()
     pattern.extract('It was Friday , October 1 , 1999')
 
-# считываем файлы с тестовой выборкой
+
+# считываем файлы с тестовой выборкой, токены соединяются по точке
 def load_dataset():
        test_sentences = []
        for data_file in tqdm(self._data_files, desc='Loading data'):
@@ -177,6 +180,8 @@ def load_dataset():
                    else:
                        sentence.append((row['token'], row['tag']))
        return test_sentences
+
+
 # process test dataset by rules
 if __name__ == '__main__':
     path_to_data_dir = r'C:/Users/anast/PycharmProjects/AutoTimeEx2.0/dataset/test'
@@ -184,7 +189,8 @@ if __name__ == '__main__':
     sentences = dataset_loader.load_dataset()
     print('Loaded {} sentences'.format(str(len(sentences))))
     pattern = Pattern()
-    with open() as result:
-    for sentence in sentences:
-        pattern.extract(test_text)
-
+    with open('date_result.csv') as result:
+        writer = csv.writer(result)
+        for sentence in sentences:
+            res = pattern.extract(sentence)
+            writer.writerows(res)

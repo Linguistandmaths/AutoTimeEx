@@ -107,8 +107,8 @@ class Pattern:
         """
         kwtree = KeywordTree()
         for date in tokens_date:
-            tokens = date.split()
-            kwtree.add(tokens)
+         #   tokens = date.split()
+            kwtree.add(date)
         kwtree.finalize()
         return kwtree
 
@@ -168,28 +168,28 @@ if __name__ == '__main__':
 
 
 # считываем файлы с тестовой выборкой, токены соединяются по точке
-def load_dataset():
-       test_sentences = []
-       for data_file in tqdm(self._data_files, desc='Loading data'):
-           with open(os.path.join(self._path_to_data_dir, data_file), 'r') as data_f:
-               reader = csv.DictReader(data_f)
-               sentence = []
-               for row in reader:
-                   if row['token'] == '.':
-                       sentence.append((row['token'], row['tag']))
-                       test_sentences.append(sentence)
-                       sentence = []
-                       continue
-                   else:
-                       sentence.append((row['token'], row['tag']))
-       return test_sentences
+def load_dataset(path_to_data_dir):
+    data_files = sorted(os.listdir(path_to_data_dir))
+    test_sentences = []
+    for data_file in tqdm(data_files, desc='Loading data'):
+        with open(os.path.join(path_to_data_dir, data_file), 'r') as data_f:
+            reader = csv.DictReader(data_f)
+            sentence = []
+            for row in reader:
+                if row['token'] == '.':
+                    sentence.append((row['token'], row['tag']))
+                    test_sentences.append(sentence)
+                    sentence = []
+                    continue
+                else:
+                    sentence.append((row['token'], row['tag']))
+    return test_sentences
 
 
 # process test dataset by rules
 if __name__ == '__main__':
-    path_to_data_dir = r'C:/Users/anast/PycharmProjects/AutoTimeEx2.0/dataset/test'
-    dataset_loader = DatasetLoader(path_to_data_dir)
-    sentences = dataset_loader.load_dataset()
+    path_to_data_dir = r'/Users/anast/PycharmProjects/AutoTimeEx2.0/dataset/test'
+    sentences = load_dataset(path_to_data_dir)
     print('Loaded {} sentences'.format(str(len(sentences))))
     pattern = Pattern()
     with open('date_result.csv') as result:

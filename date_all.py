@@ -19,7 +19,7 @@ class Pattern:
         finalRule = '|'.join(finalRuleList)
         text = ' '.join(tokens)
         result = re.findall(finalRule, text)
-        return result[0], 'DATE'
+        return result[0]
 
 
     def extract_date_type1(self, tokens):
@@ -31,28 +31,28 @@ class Pattern:
         text = ' '.join(tokens)
         pattern_type = r'(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|Mon.|Tue.Wen.|Thu|Fri|Sat|Sun),.(January|February|March|April|May|June|July|August|September|October|November|December).\d,\d{4}'
         result = re.findall(pattern_type, text)
-        return result[0], 'DATE'
+        return result[0]
 
 
     def extract_date_type2(self, tokens):
         text = ' '.join(tokens)
         pattern_type = r'(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|Mon.|Tue.Wen.|Thu.|Fri.|Sat.|Sun.),.\d{1,2}.(January|February|March|April|May|June|July|August|September|October|November|December).\d{4}'
         result = re.findall(pattern_type, text)
-        return result[0], 'DATE'
+        return result[0]
 
 
     def extract_date_type3(self, tokens):
         text = ' '.join(tokens)
         pattern_type = r'(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|Mon.|Tue.Wen.|Thu.|Fri.|Sat.|Sun.).(the).\d{1,2}(th|d).(of).(January|February|March|April|May|June|July|August|September|October|November|December),.\d{4}'
         result = re.findall(pattern_type, text)
-        return result[0], 'DATE'
+        return result[0]
 
 
     def extract_date_type4(self, tokens):
         text = ' '.join(tokens)
         pattern_type = r'\d{1,2}(th|d).(of).(January|February|March|April|May|June|July|August|September|October|November|December).\d{4}'
         result = re.findall(pattern_type, text)
-        return result[0], 'DATE'
+        return result[0]
 
 
     def extract_date_type5(self, tokens):
@@ -66,14 +66,14 @@ class Pattern:
         text = ' '.join(tokens)
         pattern_type = r'(January|February|March|April|May|June|July|August|September|October|November|December|Jan.|Feb.|Mar.|Apr.|Aug.|Sept.|Oct.|Nov.|Dec.).\d'
         result = re.findall(pattern_type, text)
-        return result[0], 'DATE'
+        return result[0]
 
 
     def extract_date_type7(self, tokens):
         text = ' '.join(tokens)
         pattern_type = r'\d{1,2}.(January|February|March|April|May|June|July|August|September|October|November|December|Jan.|Feb.|Mar.|Apr.|Aug.|Sept.|Oct.|Nov.|Dec.)'
         result = re.findall(pattern_type, text)
-        return result[0], 'DATE'
+        return result[0]
 
 
 
@@ -81,37 +81,20 @@ class Pattern:
         text = ' '.join(tokens)
         pattern_type = r'(January|February|March|April|May|June|July|August|September|October|November|December|Jan.|Feb.|Mar.|Apr.|Aug.|Sept.|Oct.|Nov.|Dec.).\d{4}'
         result = re.findall(pattern_type, text)
-        return result[0], 'DATE'
+        return result[0]
 
 
     def merge_date_extractions(self, tokens):
         """
         соединяем все рещультаты в одно целое
-        :param tokens:
-        :return:
+        :param tokens: входной список токенов
+        :return: список из токенов, которые выделились всеми регулярными выражениями
         """
-        extracts = []
-        extracts1, = extract_date_type1(tokens)
-        if extracts1 != []:
-            extracts.append(extracts1)
-        extracts2, = extract_date_type1(tokens)
-        if extracts1 != []:
-            extracts.append(extracts2)
-        extracts3, = extract_date_type1(tokens)
-        if extracts2 != []:
-            extracts.append(extracts3)
-        extracts1, = extract_date_type1(tokens)
-        if extracts1 != []:
-            extracts.append(extracts1)
-        extracts.append(extract_date_type2(tokens))
-        extracts.append(_extract_date_with_numbers(tokens))
-        extracts.append(extract_date_type3(tokens))
-        extracts.append(extract_date_type4(tokens))
-        extracts.append(extract_date_type5(tokens))
-        extracts.append(extract_date_type6(tokens))
-        extracts.append(extract_date_type7(tokens))
-        extracts.append(extract_date_type8(tokens))
-
+        extracts = [extract_date_type1(tokens), extract_date_type2(tokens), extract_date_type3(tokens),
+                    extract_date_type4(tokens), extract_date_type5(tokens), extract_date_type6(tokens),
+                    extract_date_type7(tokens), extract_date_type8(tokens)]
+        # очищаем от нулевых элементов
+        extracts = list(filter(None, extracts))
         return extracts
 
     def _create_kw_tree(self, tokens_date):
@@ -146,7 +129,7 @@ class Pattern:
                 else:
                     ids_time_expressions[ids[1] + i] = 'I-{}'.format(type)
 
-    def _get_token_id2token_type(self, all_tokens):
+    def _get_token_id2token_type(self, all_tokens, type):
         """
         Создаём словарь, в котором ключ - позиция токена в тексте, значение - его тип в BIO-разметке
         :param all_tokens: токенизированный текст
@@ -154,7 +137,7 @@ class Pattern:
         текста
         :return: словарь, в котором ключ - позиция токена в тексте, значение - его тип в BIO-разметке
         """
-        tokens_date, type = self.extract_date(all_tokens)
+        tokens_date = self.merge_date_extractions(all_tokens)
         time_tree = self._create_kw_tree(tokens_date)
         token_id2token_type = dict()
         self._search_phrases(all_tokens, token_id2token_type, time_tree, type)
@@ -162,7 +145,7 @@ class Pattern:
 
     def extract(self, text):
         all_tokens = text.split()
-        token_id2token_type = self._get_token_id2token_type(all_tokens)
+        token_id2token_type = self._get_token_id2token_type(all_tokens, 'DATE')
 
         for i, token in enumerate(all_tokens):
             if i in token_id2token_type:
@@ -176,8 +159,10 @@ if __name__ == '__main__':
     pattern = Pattern()
     pattern.extract('It was Friday , October 1 , 1999')
 
+# считываем файлы с тетовой выборкой
+data = pd.read_csv("", error_bad_lines=False, encoding="utf-8")
+test_text = data[]
 # make file for all test dataset
-test_text = pd.read_csv()
 if __name__ == '__main__':
     pattern = Pattern()
     pattern.extract(test_text)

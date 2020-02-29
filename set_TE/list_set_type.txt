@@ -6,6 +6,9 @@ annually
 daily
 every day
 every month
+every morning
+every evening
+every afternoon
 every week
 twice a week
 twice a month
@@ -44,4 +47,3 @@ each Sunday
 each Friday
 each month
 each year
-each season

@@ -2,6 +2,7 @@ import os
 import csv
 
 from tqdm import tqdm
+from ahocorapy.keywordtree import KeywordTree
 
 
 class SetTE:
@@ -30,14 +31,14 @@ class SetTE:
         return res_set
 
 
-    def _create_kw_tree(self, tokens_date):
-    """
-    Создаёт суффиксное дерево для конкретного типа временного выражения
-    :param time_expressions:
-    :return: суффиксное дерево
-    """
+    def _create_kw_tree(self, tokens_set):
+        """
+        Создаёт суффиксное дерево для конкретного типа временного выражения
+        :param time_expressions:
+        :return: суффиксное дерево
+        """
         kwtree = KeywordTree()
-        for date in tokens_date:
+        for date in tokens_set:
             tokens = date.split()
             kwtree.add(tokens)
         kwtree.finalize()
@@ -45,16 +46,16 @@ class SetTE:
 
 
     def _search_phrases(self, all_tokens, ids_time_expressions, kw_tree: KeywordTree, type):
-    """
-    Ищет временные выражения в тексте, сохраняет в словарь ids_time_expressions для позиции токена в тексте тип
-    временного выражения этого токена
-    :param all_tokens: токенизированный текст
-    :param ids_time_expressions: словарь, где ключ - позиция токена в тексте, значение - тип этого токена в BIO
-    разметке; заполняется в этом методе
-    :param kw_tree: суффиксное дерево соответствующего типа временного выражения
-    :param type: тип временного выражения
-    :return:
-    """
+        """
+        Ищет временные выражения в тексте, сохраняет в словарь ids_time_expressions для позиции токена в тексте тип
+        временного выражения этого токена
+        :param all_tokens: токенизированный текст
+        :param ids_time_expressions: словарь, где ключ - позиция токена в тексте, значение - тип этого токена в BIO
+        разметке; заполняется в этом методе
+        :param kw_tree: суффиксное дерево соответствующего типа временного выражения
+        :param type: тип временного выражения
+        :return:
+        """
         for ids in kw_tree.search_all(all_tokens):
             tokens = ids[0]
             for i, token in enumerate(tokens):
@@ -65,22 +66,25 @@ class SetTE:
 
 
     def _get_token_id2token_type(self, all_tokens):
-    """
-    Создаём словарь, в котором ключ - позиция токена в тексте, значение - его тип в BIO-разметке
-    :param all_tokens: токенизированный текст
-    :param time_expressions: словарь, который для каждого типа временного выражения содержит список токенов из
-    текста
-    :return: словарь, в котором ключ - позиция токена в тексте, значение - его тип в BIO-разметке
-    """
-        tokens_date, type = self.extract_date(all_tokens)
+        """
+        Создаём словарь, в котором ключ - позиция токена в тексте, значение - его тип в BIO-разметке
+        :param all_tokens: токенизированный текст
+        :param time_expressions: словарь, который для каждого типа временного выражения содержит список токенов из
+        текста
+        :return: словарь, в котором ключ - позиция токена в тексте, значение - его тип в BIO-разметке
+        """
+        tokens_date = self._extract_set(all_tokens)
         time_tree = self._create_kw_tree(tokens_date)
         token_id2token_type = dict()
-        self._search_phrases(all_tokens, token_id2token_type, time_tree, type)
+        self._search_phrases(all_tokens, token_id2token_type, time_tree, 'SET')
         return token_id2token_type
 
 
     def extract(self, text):
-        all_tokens = text.split()
+        if type(text) == list:
+            all_tokens = text
+        else:
+            all_tokens = text.split()
         token_id2token_type = self._get_token_id2token_type(all_tokens)
 
         for i, token in enumerate(all_tokens):
@@ -117,10 +121,11 @@ if __name__ == '__main__':
     path_to_data_dir = r'/Users/anast/PycharmProjects/AutoTimeEx/test'
     sentences = load_dataset(path_to_data_dir)
     print('Loaded {} sentences'.format(str(len(sentences))))
+    set_te = SetTE()
     with open('set_result.csv', 'w', encoding='utf-8') as result:
         writer = csv.writer(result)
         for sentence in sentences:
-            res = _extract_set(sentence)
+            res = set_te.extract(sentence)
             writer.writerows(res)
 
 

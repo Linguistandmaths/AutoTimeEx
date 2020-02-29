@@ -15,11 +15,8 @@ class SetTE:
         :return res_set - список примеров взодящих в строку
         """
         file_with_set = r'list_set_type.txt'
-        with open(str(file_with_set), encoding='utf-8') as f:
-            examples = f.readlines()
-        set_examples = []
-        for ex in examples:
-            set_examples.append(ex.strip())
+        with open(file_with_set, encoding='utf-8') as f:
+            set_examples = f.read().split('\n')
         set_examples = set(set_examples)
         print(set_examples)
         ''' перебираем токены из текста, список с кортежами храним в set '''
@@ -87,14 +84,13 @@ class SetTE:
             all_tokens = text.split()
         token_id2token_type = self._get_token_id2token_type(all_tokens)
 
+        result_tuples = []
         for i, token in enumerate(all_tokens):
             if i in token_id2token_type:
-                print(token, token_id2token_type[i])
-
+                result_tuples.append((token, token_id2token_type[i]))
             else:
-                print(token, 'O')
-
-
+                result_tuples.append((token, 'O'))
+        return result_tuples
 
 
 # считываем файлы с тестовой выборкой, токены соединяются по точке

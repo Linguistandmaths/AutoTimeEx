@@ -4,30 +4,93 @@ import csv
 from tqdm import tqdm
 
 
-def _extract_set(text, file_with_set):
-    """загружаем примеры set из файла резултат храним списком в set_exaples
+class SetTE:
+    def __init__(self):
+        pass
+
+    def _extract_set(self, tokens):
+        """загружаем примеры set из файла резултат храним списком в set_exaples
+        :param tokens - список токенов
+        :return res_set - список примеров взодящих в строку
+        """
+        file_with_set = r'list_set_type.txt'
+        with open(str(file_with_set), encoding='utf-8') as f:
+            examples = f.readlines()
+        set_examples = []
+        for ex in examples:
+            set_examples.append(ex.strip())
+        set_examples = set(set_examples)
+        print(set_examples)
+        ''' перебираем токены из текста, список с кортежами храним в set '''
+        res_set = []
+        text = ' '.join(tokens)
+        for set_ex in set_examples:
+            if set_ex in text:
+                res_set.append(set_ex)
+        return res_set
+
+
+    def _create_kw_tree(self, tokens_date):
     """
-    with open(str(file_with_set), encoding='utf-8') as f:
-        set_examples = set(f.readlines())
-    ''' перебираем токены из текста, список с кортежами храним в set '''
-    res_set = []
-    for token in text:
-        # проверяем для примеров из одного слова
-        if token in set_examples:
-            res_set.append((token, 'B-SET'))
-            continue 
-        else:
-            # перебираем список из примеров из файла
-            for set_ex in set_examples:
-                if set_ex.startswith(token):
-                    res_set.append((token, 'B-SET'))
-                    break
-                elif token in set_ex:
-                    res_set.append((token, 'I-SET'))
-                    break
+    Создаёт суффиксное дерево для конкретного типа временного выражения
+    :param time_expressions:
+    :return: суффиксное дерево
+    """
+        kwtree = KeywordTree()
+        for date in tokens_date:
+            tokens = date.split()
+            kwtree.add(tokens)
+        kwtree.finalize()
+        return kwtree
+
+
+    def _search_phrases(self, all_tokens, ids_time_expressions, kw_tree: KeywordTree, type):
+    """
+    Ищет временные выражения в тексте, сохраняет в словарь ids_time_expressions для позиции токена в тексте тип
+    временного выражения этого токена
+    :param all_tokens: токенизированный текст
+    :param ids_time_expressions: словарь, где ключ - позиция токена в тексте, значение - тип этого токена в BIO
+    разметке; заполняется в этом методе
+    :param kw_tree: суффиксное дерево соответствующего типа временного выражения
+    :param type: тип временного выражения
+    :return:
+    """
+        for ids in kw_tree.search_all(all_tokens):
+            tokens = ids[0]
+            for i, token in enumerate(tokens):
+                if i == 0:
+                    ids_time_expressions[ids[1] + i] = 'B-{}'.format(type)
                 else:
-                    res_set.append((token, 'O'))
-    return res_set
+                    ids_time_expressions[ids[1] + i] = 'I-{}'.format(type)
+
+
+    def _get_token_id2token_type(self, all_tokens):
+    """
+    Создаём словарь, в котором ключ - позиция токена в тексте, значение - его тип в BIO-разметке
+    :param all_tokens: токенизированный текст
+    :param time_expressions: словарь, который для каждого типа временного выражения содержит список токенов из
+    текста
+    :return: словарь, в котором ключ - позиция токена в тексте, значение - его тип в BIO-разметке
+    """
+        tokens_date, type = self.extract_date(all_tokens)
+        time_tree = self._create_kw_tree(tokens_date)
+        token_id2token_type = dict()
+        self._search_phrases(all_tokens, token_id2token_type, time_tree, type)
+        return token_id2token_type
+
+
+    def extract(self, text):
+        all_tokens = text.split()
+        token_id2token_type = self._get_token_id2token_type(all_tokens)
+
+        for i, token in enumerate(all_tokens):
+            if i in token_id2token_type:
+                print(token, token_id2token_type[i])
+
+            else:
+                print(token, 'O')
+
+
 
 
 # считываем файлы с тестовой выборкой, токены соединяются по точке
@@ -57,7 +120,7 @@ if __name__ == '__main__':
     with open('set_result.csv', 'w', encoding='utf-8') as result:
         writer = csv.writer(result)
         for sentence in sentences:
-            res = _extract_set(sentence,'list_set_type.txt')
+            res = _extract_set(sentence)
             writer.writerows(res)
 
 

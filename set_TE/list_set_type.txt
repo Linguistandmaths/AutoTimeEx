@@ -44,3 +44,4 @@ each Sunday
 each Friday
 each month
 each year
+each season

@@ -1,0 +1,2 @@
+(?P<B-TIME>\d|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve (?P<I-TIME>o`clock|pm|am|p.m.|a.m.)
+(?P<B-TIME>midday|midnight|afternoon|morning|evening)

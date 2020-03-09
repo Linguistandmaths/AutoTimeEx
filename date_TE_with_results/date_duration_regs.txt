@@ -14,5 +14,6 @@ the.\d{1,2}(th|d).(of).(January|February|March|April|May|June|July|August|Septem
 (?P<B-DATE>(January|February|March|April|May|June|July|August|September|October|November|December|Jan.|Feb.|Mar.|Apr.|Aug.|Sept.|Oct.|Nov.|Dec.).\d{4}
 (?P<B-DATE>January|February|March|April|May|June|July|August|September|October|November|December|Jan.|Feb.|Mar.|Apr.|Aug.|Sept.|Oct.|Nov.|Dec.)
 (?P<B-DATE>Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|Mon.|Tue.|Wen.|Thu|Fri|Sat|Sun)
+(?P<B-DATE>today|yesterday|tomorrow)
 DURATION
 (?P<B-DURATION>within|few|almost|about|last|\d{2}) (?P<I-DURATION>hours|decades|days|years|weeks|months|minutes|hour|decade|day|year|week|month|minute)

@@ -1,9 +1,9 @@
-\d{2,4}[\/\-.]\d{2}[.\-\/]\d{2,4}
-[1-9]\d{3}[\.-\/][0-1]\d[\.-\/][0-3]\d
-[0-3]\d{1}[\.-\/][0,1]\d[\.-\/][1-9]\d{3}
-[0-3]\d{1}[\.-\/][0,1]\d[\.-\/][1-9]\d
-[0,1]\d[\.-\/][1-2]\d{3}
-[0-3]\d[\.\/-][0,1]\d'
+(?P<B-DATE>\d{2,4}[\/\-.]\d{2}[.\-\/]\d{2,4})
+(?P<B-DATE>[1-9]\d{3}[\.-\/][0-1]\d[\.-\/][0-3]\d)
+(?P<B-DATE>[0-3]\d{1}[\.-\/][0,1]\d[\.-\/][1-9]\d{3})
+(?P<B-DATE>[0-3]\d{1}[\.-\/][0,1]\d[\.-\/][1-9]\d)
+(?P<B-DATE>[0,1]\d[\.-\/][1-2]\d{3})
+(?P<B-DATE>[0-3]\d[\.\/-][0,1]\d)
 (Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|Mon.|Tue.|Wen.|Thu|Fri|Sat|Sun).,.(January|February|March|April|May|June|July|August|September|October|November|December).,.\d.,.\d{4}
 (Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|Mon.|Tue.|Wen.|Thu.|Fri.|Sat.|Sun.).,.\d{1,2}.(January|February|March|April|May|June|July|August|September|October|November|December).\d{4}
 (Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|Mon.|Tue.|Wen.|Thu.|Fri.|Sat.|Sun.).(the).\d{1,2}(th|d).(of).(January|February|March|April|May|June|July|August|September|October|November|December),.\d{4}
@@ -11,8 +11,8 @@
 the.\d{1,2}(th|d).(of).(January|February|March|April|May|June|July|August|September|October|November|December),.\d{4}
 (January|February|March|April|May|June|July|August|September|October|November|December|Jan.|Feb.|Mar.|Apr.|Aug.|Sept.|Oct.|Nov.|Dec.).\d
 \d{1,2}.(January|February|March|April|May|June|July|August|September|October|November|December|Jan.|Feb.|Mar.|Apr.|Aug.|Sept.|Oct.|Nov.|Dec.)
-(January|February|March|April|May|June|July|August|September|October|November|December|Jan.|Feb.|Mar.|Apr.|Aug.|Sept.|Oct.|Nov.|Dec.).\d{4}
-(January|February|March|April|May|June|July|August|September|October|November|December|Jan.|Feb.|Mar.|Apr.|Aug.|Sept.|Oct.|Nov.|Dec.)
-(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|Mon.|Tue.|Wen.|Thu|Fri|Sat|Sun)
+(?P<B-DATE>(January|February|March|April|May|June|July|August|September|October|November|December|Jan.|Feb.|Mar.|Apr.|Aug.|Sept.|Oct.|Nov.|Dec.).\d{4}
+(?P<B-DATE>January|February|March|April|May|June|July|August|September|October|November|December|Jan.|Feb.|Mar.|Apr.|Aug.|Sept.|Oct.|Nov.|Dec.)
+(?P<B-DATE>Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|Mon.|Tue.|Wen.|Thu|Fri|Sat|Sun)
 DURATION
-(within|few|almost|about|last|\d{2}).(hours|decades|days|years|weeks|months|minutes|hour|decade|day|year|week|month|minute)
+(?P<B-DURATION>within|few|almost|about|last|\d{2}) (?P<I-DURATION>hours|decades|days|years|weeks|months|minutes|hour|decade|day|year|week|month|minute)

@@ -22,7 +22,7 @@ class TimeModel:
         K.set_session(sess)
 
         print('Loading elmo model...')
-        self._elmo_model = hub.Module("http://files.deeppavlov.ai/deeppavlov_data/elmo_ru-news_wmt11-16_1.5M_steps.tar.gz",
+        self._elmo_model = hub.Module("https://tfhub.dev/google/elmo/2",
         trainable=True)
         print('Elmo model is loaded')
         sess.run(tf.global_variables_initializer())

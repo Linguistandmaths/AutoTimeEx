@@ -32,7 +32,7 @@ class Trainer:
         K.set_session(sess)
 
         print('Loading elmo model...')
-        self._elmo_model = hub.Module("http://files.deeppavlov.ai/deeppavlov_data/elmo_ru-news_wmt11-16_1.5M_steps.tar.gz",
+        self._elmo_model = hub.Module("https://tfhub.dev/google/elmo/2",
         trainable=True)
         print('Elmo model is loaded')
         sess.run(tf.global_variables_initializer())
@@ -74,8 +74,8 @@ class Trainer:
         return self._model
 
     def train(self):
-        modelPath = "/Users/bruches/PycharmProjects/aspi/term_extraction/dl_model/weights/weights_chars_elmo_crf.h5"
-        # model.load_weights(modelPath)
+        modelPath = "/Users/bruches/PycharmProjects/AutoTimeEx/dl_classifier/weights/weights_chars_elmo_en_crf.h5"
+        self._model.load_weights(modelPath)
         saver = ModelCheckpoint(modelPath, monitor='val_loss', verbose=1, save_best_only=True, mode='auto')
         stopper = EarlyStopping(monitor='val_loss', patience=3, verbose=1, mode='auto')
         history = self._model.fit([self._X_chars, self._X_sentences], np.array(self._y), batch_size=self._batch_size, epochs=50,

@@ -12,7 +12,7 @@ class Predictor:
         self._tokenizer = WordPunctTokenizer()
         time_model = TimeModel()
         self._model = time_model.get_model()
-        self._model.load_weights('/Users/bruches/PycharmProjects/AutoTimeEx/dl_classifier/weights/weights_chars_elmo_crf.h5')
+        self._model.load_weights('/Users/bruches/PycharmProjects/AutoTimeEx/dl_classifier/weights/weights_chars_elmo_en_crf.h5')
         self._tag2id = {'O': 0, 'B-TIME': 1, 'I-TIME': 2, 'B-DATE': 3, 'I-DATE': 4, 'B-DURATION': 5, 'I-DURATION': 6,
                         'B-SET': 7, 'I-SET': 8}
         self._id2tag = self._get_id2tag()
@@ -43,7 +43,7 @@ class Predictor:
 
 if __name__ == '__main__':
     predictor = Predictor()
-    text = 'The season about a month earlier than usual, sparking concerns it might turn into the worst in a decade.'
+    text = 'to get funds for his 2007 presidental campaign'
     result = predictor.predict(text)
     for r in result:
         print(r)

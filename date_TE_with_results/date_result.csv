@@ -1649,7 +1649,7 @@ expected,O
 to,O
 shutter,O
 .,O
-A,O
+A,B-DATE
 four,O
 -,O
 week,O
@@ -2803,7 +2803,7 @@ which,O
 was,O
 part,O
 of,O
-a,O
+a,B-DATE
 flotilla,O
 that,O
 sought,O

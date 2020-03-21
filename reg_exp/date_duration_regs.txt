@@ -13,7 +13,7 @@
 (?P<B-DATE>the)
 (?P<I-DATE>([1-9]|[12][0-9]|3[01])(st|th|d))
 (?P<I-DATE>of)
-(?P<I-DATE>[1-9]\d{2,3})
+(?P<I-DATE>[12]\d{3})
 (?P<B-DATE>today|yesterday|tomorrow)
 DURATION
 (?P<B-DURATION>within|few|almost|about|last|\d{1,2})

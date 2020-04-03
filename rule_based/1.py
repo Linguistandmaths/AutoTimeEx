@@ -1,7 +1,7 @@
 import re
 
 
-class TimeEx(object):
+class TimeEx:
 
     def __init__(self, text):
         self.text = text
@@ -13,23 +13,20 @@ class TimeEx(object):
         merged = self.merge(rulesResult, modelResult)
         return merged
 
-    def rules(self):
-        """функция с правилами сделана для таких слуучаев, чтобы был понятен алгоритм в целом,
-        то есть для случаев с временным выражением из одного слова и для трех слов (the first of January).
-        Названия тэгов исключительно как пример"""
-        tokens = self.text.split(' ')
+    def rules(self, tokens, filename):
+        """
+        функция, применяющая регулярные выражения
+        :param tokens: список токенов
+        :return: кортеж (токен, тег)
+        """
         result = []
-        date_pattern = r'(?P<date_number>\d{2}\.\d{2}\.\d{4})'   # 22.22.2222
-        time_pattern = r'(?P<time>\d{2}:\d{2})'   # 12:12
-        Bdate_pattern = r'(?P<Bdate>first|second|third|fourth)'
-        sign_pattern = r'(?P<sign>of)'
-        Idate_pattern = r'(?P<Idate>[jJ]anuary|[fF]abruary|[mM]arch)'
-        whole_pattern_list = [date_pattern, time_pattern, Bdate_pattern, sign_pattern, Idate_pattern]
+        with open(filename, encoding='utf-8') as file:
+            whole_pattern_list = file.read().split('/n')
         whole_pattern = '|'.join(whole_pattern_list)
-        tags = ['', 'time', 'Bdate', 'sign', 'Idate']
+        tags = ['B-DATE', 'I-DATE', 'B-TIME', 'I-TIME', 'B-DURATION', 'I-DURATION', 'B-SET', 'I-SET']
 
         for token in tokens:
-            # находит все слова, которые могут быть во временном выражении. Т.е. пометит first, окружение не важно
+            # находит все слова, которые могут быть во временном выражении.
             found_timex = re.search(whole_pattern, token)
             if found_timex:
                 for tag in tags:
@@ -41,14 +38,21 @@ class TimeEx(object):
                 result.append(tuple_for_token)
 
         for token_tuple in result:
-            # проверяет окружение, убирает ложно-положительные результаты
+            # когда I-тег находиться в середине, превращаем его в 'O'
+            # (согласно шаблонам он не может оказаться начальным)
             index = result.index(token_tuple)
             token, tag = token_tuple
-            if tag == 'Bdate':
-                next_tuple = result[index + 1]
-                next_token, next_tag = next_tuple
-                if next_tag != 'sign':
+            if tag[0] == 'I':
+                prev_tuple = result[index - 1]
+                prev_token, prev_tag = prev_tuple
+                if prev_tag[0] == 'O':
                     result[index] = (token, 'O')
+            # преобразует начальный тег в серединный, если он оказывается внутри выражения
+            if tag[0] == 'B':
+                prev_tuple = result[index - 1]
+                prev_token, prev_tag = prev_tuple
+                if prev_tag[0] == 'B':
+                    result[index] = (token, 'I'+tag[1:])
 
         return result
 
@@ -62,4 +66,4 @@ class TimeEx(object):
 if __name__ == "__main__":
     text = input('enter your text: ')
     timex = TimeEx(text)
-    print(timex.extract())
+    print(timex.rules(text.split(), 'reg_exp/date_regs.txt'))

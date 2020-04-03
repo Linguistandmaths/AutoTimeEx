@@ -1,6 +1,6 @@
 (?P<B-DURATION>within|few|almost|about|last|\d{1,2,3})
 (?P<I-DURATION>hours|decades|days|years|weeks|months|minutes|hour|decade|day|year|week|month|minute)
-(?P<B-DURATION>[12][0-4][h|H].\d{1,2}[m|M].)
+(?P<B-DURATION>[12][0-4][h|H]\.\d{1,2}[m|M]\.)
 (?P<B-DURATION>[12][0-4][h|H]\d{1,2}[m|M])
 (?P<B-DURATION>[12][0-4])
 (?P<I-DURATION>h|H)

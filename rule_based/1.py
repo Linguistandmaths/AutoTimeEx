@@ -20,6 +20,7 @@ class TimeEx:
         :return: кортеж (токен, тег)
         """
         result = []
+        # загружаю регулярки из общего файла, где нет повторяющихся классов
         with open('regs', encoding='utf-8') as file:
             whole_pattern_list = file.read().split('\n')
         whole_pattern = '|'.join(whole_pattern_list)
@@ -61,7 +62,7 @@ class TimeEx:
             if tag == 'O':
                 result[index] = (token, tag[0]+'-'+tag[1:])
             # заменяем B-DATENUM на B-DATE
-            if tag == 'B-DATENUM':
+            if tag[2:] == 'DATENUM':
                 result[index] = (token, 'B-DATE')
         return result
 

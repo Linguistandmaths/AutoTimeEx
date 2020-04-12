@@ -23,7 +23,7 @@ class TimeEx:
         with open(filename, encoding='utf-8') as file:
             whole_pattern_list = file.read().split('/n')
         whole_pattern = '|'.join(whole_pattern_list)
-        tags = ['B-DATE', 'I-DATE', 'B-TIME', 'I-TIME', 'B-DURATION', 'I-DURATION', 'B-SET', 'I-SET']
+        tags = ['BDATE', 'IDATE', 'BTIME', 'ITIME', 'BDURATION', 'IDURATION', 'BSET', 'ISET']
 
         for token in tokens:
             # находит все слова, которые могут быть во временном выражении.
@@ -56,7 +56,7 @@ class TimeEx:
 
         return result
 
-    def model(self,rulesResult):
+    def model(self, rulesResult):
         return rulesResult
 
     def merge(self, rulesResult, modelResult):

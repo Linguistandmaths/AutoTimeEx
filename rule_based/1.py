@@ -21,25 +21,28 @@ class TimeEx:
         """
         result = []
         with open(filename, encoding='utf-8') as file:
-            whole_pattern_list = file.read().split('/n')
+            whole_pattern_list = file.read().split('\n')
         whole_pattern = '|'.join(whole_pattern_list)
         tags = ['BDATE', 'IDATE', 'BDATENUM', 'BTIME', 'ITIME', 'BDURATION', 'IDURATION', 'BSET', 'ISET']
 
         for token in tokens:
             # находит все слова, которые могут быть во временном выражении.
             found_timex = re.search(whole_pattern, token)
-            if found_timex:
+            if found_timex.group():
                 for tag in tags:
-                    if found_timex.group(tag):
-                        tuple_for_token = (token, tag)
-                        result.append(tuple_for_token)
+                    try:
+                        if found_timex.group(tag):
+                            tuple_for_token = (token, tag)
+                            result.append(tuple_for_token)
+                    except IndexError:
+                        continue
             else:
+                print(token)
                 tuple_for_token = (token, 'O')
                 result.append(tuple_for_token)
 
         for token_tuple in result:
-            # когда I-тег находиться в середине, превращаем его в 'O'
-            # (согласно шаблонам он не может оказаться начальным)
+            # если перед I-тегом не начальный, то превращаем его в 'O'
             index = result.index(token_tuple)
             token, tag = token_tuple
             if tag[0] == 'I':
@@ -66,4 +69,4 @@ class TimeEx:
 if __name__ == "__main__":
     text = input('enter your text: ')
     timex = TimeEx(text)
-    print(timex.rules(text.split(), 'reg_exp/date_regs.txt'))
+    print(timex.rules(text.split(), 'reg_exp/regexs_all_together.txt'))

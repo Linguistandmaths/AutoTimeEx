@@ -23,7 +23,7 @@ class TimeEx:
         with open(filename, encoding='utf-8') as file:
             whole_pattern_list = file.read().split('/n')
         whole_pattern = '|'.join(whole_pattern_list)
-        tags = ['BDATE', 'IDATE', 'BTIME', 'ITIME', 'BDURATION', 'IDURATION', 'BSET', 'ISET']
+        tags = ['BDATE', 'IDATE', 'BDATENUM', 'BTIME', 'ITIME', 'BDURATION', 'IDURATION', 'BSET', 'ISET']
 
         for token in tokens:
             # находит все слова, которые могут быть во временном выражении.

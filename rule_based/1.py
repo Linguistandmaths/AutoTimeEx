@@ -58,7 +58,7 @@ class TimeEx:
             if tag == 'O':
                 result[index] = (token, tag[0]+'-'+tag[1:])
             # заменяем B-DATENUM на B-DATE
-            if tag == 'B-DATENUM':
+            if tag[2:] == 'DATENUM':
                 result[index] = (token, 'B-DATE')
         return result
 

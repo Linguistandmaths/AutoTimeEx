@@ -59,7 +59,7 @@ class TimeEx:
                 if prev_tag[0] == 'B':
                     result[index] = (token, 'I'+tag[1:])
             # добавляем "-" в названия тегов
-            if tag == 'O':
+            if tag != 'O':
                 result[index] = (token, tag[0]+'-'+tag[1:])
             # заменяем B-DATENUM на B-DATE
             if tag[2:] == 'DATENUM':

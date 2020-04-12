@@ -13,14 +13,14 @@ class TimeEx:
         merged = self.merge(rulesResult, modelResult)
         return merged
 
-    def rules(self, tokens, filename):
+    def rules(self, tokens):
         """
         функция, применяющая регулярные выражения
         :param tokens: список токенов
         :return: кортеж (токен, тег)
         """
         result = []
-        with open(filename, encoding='utf-8') as file:
+        with open('regs', encoding='utf-8') as file:
             whole_pattern_list = file.read().split('\n')
         whole_pattern = '|'.join(whole_pattern_list)
         tags = ['BDATE', 'IDATE', 'BDATENUM', 'BTIME', 'ITIME', 'BDURATION', 'IDURATION', 'BSET', 'ISET']
@@ -42,7 +42,8 @@ class TimeEx:
                 result.append(tuple_for_token)
 
         for token_tuple in result:
-            # если перед I-тегом не начальный, то превращаем его в 'O'
+            # когда I-тег находиться в середине, превращаем его в 'O'
+            # (согласно шаблонам он не может оказаться начальным)
             index = result.index(token_tuple)
             token, tag = token_tuple
             if tag[0] == 'I':
@@ -56,7 +57,12 @@ class TimeEx:
                 prev_token, prev_tag = prev_tuple
                 if prev_tag[0] == 'B':
                     result[index] = (token, 'I'+tag[1:])
-
+            # добавляем "-" в названия тегов
+            if tag == 'O':
+                result[index] = (token, tag[0]+'-'+tag[1:])
+            # заменяем B-DATENUM на B-DATE
+            if tag == 'B-DATENUM':
+                result[index] = (token, 'B-DATE')
         return result
 
     def model(self, rulesResult):
@@ -69,4 +75,5 @@ class TimeEx:
 if __name__ == "__main__":
     text = input('enter your text: ')
     timex = TimeEx(text)
-    print(timex.rules(text.split(), 'reg_exp/regexs_all_together.txt'))
+    tokens = text.split()
+    print(timex.rules(tokens))

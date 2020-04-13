@@ -42,10 +42,9 @@ class TimeEx:
                 tuple_for_token = (token, 'O')
                 result.append(tuple_for_token)
 
-        for token_tuple in result:
+        for index, token_tuple in enumerate(result):
             # когда I-тег находиться в середине, превращаем его в 'O'
             # (согласно шаблонам он не может оказаться начальным)
-            index = result.index(token_tuple)
             token, tag = token_tuple
             if tag[0] == 'I':
                 prev_tuple = result[index - 1]

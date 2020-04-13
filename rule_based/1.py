@@ -1,4 +1,5 @@
 import re
+import nltk
 
 
 class TimeEx:
@@ -6,19 +7,21 @@ class TimeEx:
     def __init__(self, text):
         self.text = text
 
-    def extract(self):
+    def extract(self, text):
         """основная функция, которая вызывает другие и выдает конечный результат"""
-        rulesResult = self.rules()
+        rulesResult = self.rules(text)
         modelResult = self.model(rulesResult)
         merged = self.merge(rulesResult, modelResult)
         return merged
 
-    def rules(self, tokens):
+    def rules(self, text):
         """
         функция, применяющая регулярные выражения
-        :param tokens: список токенов
+        :param text: строка
         :return: кортеж (токен, тег)
         """
+        # токенизация входной строки
+        tokens = nltk.word_tokenize(text)
         result = []
         # загружаю регулярки из общего файла, где нет повторяющихся классов
         with open('regs', encoding='utf-8') as file:
@@ -29,7 +32,7 @@ class TimeEx:
         for token in tokens:
             # находит все слова, которые могут быть во временном выражении.
             found_timex = re.search(whole_pattern, token)
-            if found_timex.group():
+            if found_timex:
                 for tag in tags:
                     try:
                         if found_timex.group(tag):
@@ -75,5 +78,4 @@ class TimeEx:
 if __name__ == "__main__":
     text = input('enter your text: ')
     timex = TimeEx(text)
-    tokens = text.split()
-    print(timex.rules(tokens))
+    print(timex.rules(text))

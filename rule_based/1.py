@@ -1,5 +1,6 @@
 import re
-import nltk
+from nltk.tokenize import WordPunctTokenizer
+tk = WordPunctTokenizer()
 
 
 class TimeEx:
@@ -21,7 +22,7 @@ class TimeEx:
         :return: кортеж (токен, тег)
         """
         # токенизация входной строки
-        tokens = nltk.word_tokenize(text)
+        tokens = tk.tokenize(text)
         result = []
         # загружаю регулярки из общего файла, где нет повторяющихся классов
         with open('regs', encoding='utf-8') as file:

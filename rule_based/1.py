@@ -49,7 +49,7 @@ class TimeEx:
             token, tag = token_tuple
             if index == 0:
                 if tag[0] == 'I':
-                    result[index] = (token, 'B-' + tag[1:])
+                    result[index] = (token, 'B' + tag[1:])
                 else:
                     continue
             # elif index == len(result):
@@ -74,6 +74,9 @@ class TimeEx:
                 elif tag[-1] == 'M':
                     result[index] = (token, tag[:4])
                 # добавляем "-" в названия тегов
+        for index, token_tuple in enumerate(result):
+            token, tag = token_tuple
+            if tag != 'O':
                 result[index] = (token, tag[0] + '-' + tag[1:])
         return result
 

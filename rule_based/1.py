@@ -1,12 +1,11 @@
 import re
 from nltk.tokenize import WordPunctTokenizer
-tk = WordPunctTokenizer()
 
 
 class TimeEx:
 
-    def __init__(self, text):
-        self.text = text
+    def __init__(self):
+        self.tk = WordPunctTokenizer()
 
     def extract(self, text):
         """основная функция, которая вызывает другие и выдает конечный результат"""
@@ -22,7 +21,7 @@ class TimeEx:
         :return: кортеж (токен, тег)
         """
         # токенизация входной строки
-        tokens = tk.tokenize(text)
+        tokens = self.tk.tokenize(text)
         result = []
         # загружаю регулярки из общего файла, где нет повторяющихся классов
         with open('regs', encoding='utf-8') as file:
@@ -53,6 +52,7 @@ class TimeEx:
                     result[index] = (token, 'B-' + tag[1:])
                 else:
                     continue
+            # elif index == len(result):
             elif tag != 'O':
                 # когда I-тег находиться не в середине, превращаем его в 'O'
                 # (согласно шаблонам он не может оказаться начальным)
@@ -69,6 +69,7 @@ class TimeEx:
                     prev_token, prev_tag = prev_tuple
                     if prev_tag != 'O':
                         result[index] = (token, 'I'+tag[1:])
+                        print('hello')
                 # заменяем B-DATENUM на B-DATE
                 elif tag[-1] == 'M':
                     result[index] = (token, tag[:4])
@@ -85,5 +86,5 @@ class TimeEx:
 
 if __name__ == "__main__":
     text = input('enter your text: ')
-    timex = TimeEx(text)
+    timex = TimeEx()
     print(timex.rules(text))

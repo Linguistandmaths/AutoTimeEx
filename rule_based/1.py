@@ -52,20 +52,16 @@ class TimeEx:
                     result[index] = (token, 'B' + tag[1:])
                 else:
                     continue
-            # elif index == len(result):
             elif tag != 'O':
                 # когда I-тег находиться не в середине, превращаем его в 'O'
                 # (согласно шаблонам он не может оказаться начальным)
                 if tag[0] == 'I':
                     prev_tuple = result[index - 1]
                     prev_token, prev_tag = prev_tuple
-                    try:
-                        next_tuple = result[index + 1]
-                        next_token, next_tag = next_tuple
-                        if (prev_tag == 'O') and (next_tag == 'O'):
-                            result[index] = (token, 'O')
-                    except IndexError:
-                        pass
+                    #next_tuple = result[index + 1]
+                    # next_token, next_tag = next_tuple
+                    if (prev_tag == 'O') and (next_tag == 'O'):
+                        result[index] = (token, 'O')
                 # преобразует начальный тег в серединный, если он оказывается внутри выражения
                 elif tag[0] == 'B':
                     prev_tuple = result[index - 1]

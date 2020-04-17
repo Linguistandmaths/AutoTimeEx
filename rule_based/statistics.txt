@@ -17,4 +17,5 @@ M I-DURATION, I-TIME
 \. I-DATE, I-TIME
 a I-SET, I-TIME
 дни недели в полной форме B-DATE, I-SET,
-месяцы в полной форме B-DATE, I-SET,
+месяцы в полной форме B-DATE, I-SET
+числа буквами I-DATE, I-TIME, B-TIME, B-DURATION

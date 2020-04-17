@@ -24,7 +24,7 @@ class TimeEx:
         tokens = self.tk.tokenize(text)
         result = []
         # загружаю регулярки из общего файла, где нет повторяющихся классов
-        with open('regs', encoding='utf-8') as file:
+        with open('reg_exp/regexs_all_together.txt', encoding='utf-8') as file:
             whole_pattern_list = file.read().split('\n')
         whole_pattern = '|'.join(whole_pattern_list)
         tags = ['BDATE', 'IDATE', 'BDATENUM', 'BTIME', 'ITIME', 'BDURATION', 'IDURATION', 'BSET', 'ISET']

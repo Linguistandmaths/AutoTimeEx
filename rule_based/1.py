@@ -69,7 +69,6 @@ class TimeEx:
                     prev_token, prev_tag = prev_tuple
                     if prev_tag != 'O':
                         result[index] = (token, 'I'+tag[1:])
-                        print('hello')
                 # заменяем B-DATENUM на B-DATE
                 elif tag[-1] == 'M':
                     result[index] = (token, tag[:4])

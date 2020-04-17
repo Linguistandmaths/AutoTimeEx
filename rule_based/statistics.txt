@@ -1,0 +1,20 @@
+спорные токены
+\d{1,2,3} B-DATE, B-DURATION, I-DURATION,  B-TIME,
+three four five B-SET, I-DATE, B-TIME,
+afternoon I-SET, B-TIME,
+morning I-SET, B-TIME,
+evening I-SET, B-TIME,
+minute I-DURATION, I-SET,
+minutes I-DURATION, I-TIME
+hour I-DURATION, I-SET,
+day I-DURATION, I-SET,
+week I-DURATION, I-SET,
+month I-DURATION, I-SET,
+year I-DATE, I-DURATION, I-SET,
+decade I-DURATION, I-SET,
+m I-DURATION, I-TIME
+M I-DURATION, I-TIME
+\. I-DATE, I-TIME
+a I-SET, I-TIME
+дни недели в полной форме B-DATE, I-SET,
+месяцы в полной форме B-DATE, I-SET,

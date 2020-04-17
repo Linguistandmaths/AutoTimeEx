@@ -6,4 +6,4 @@
 (?P<BSET>weekly|monthly|hourly|yearly|annually|daily|every|each|twice|once|three|four|five)
 (?P<ISET>a|times|day|month|year|morning|evening|afternoon|week|[Jj]anuary|[Ff]ebruary|[Mm]arch|[Aa]pril|[Mm]ay|[Jj]une|[Jj]uly|[Aa]ugust|[Ss]eptember|[Oo]ctober|[Nn]ovember|[Dd]ecember|[Mm]onday|[Tt]uesday|[Ww]ednesday|[Tt]hursday|[Ff]riday|[Ss]aturday|[Ss]unday)
 (?P<BTIME>half|quarter|(\d{1,2}:\d{2})|midday|midnight|afternoon|morning|evening|\d|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty)
-(?P<ITIME>a|A|\.|m|M|p|P|[oO][`']clock|pm|am|p.m.|a.m.|PM|AM|after|minutes|past|to)
+(?P<ITIME>a|A|\.|m|M|p|P|[oO]|[`']|clock|[oO][`']clock|pm|am|p.m.|a.m.|PM|AM|after|minutes|past|to)

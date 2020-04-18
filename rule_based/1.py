@@ -45,37 +45,19 @@ class TimeEx:
                 tuple_for_token = (token, 'O')
                 result.append(tuple_for_token)
 
-        for index, token_tuple in enumerate(result):
-            token, tag = token_tuple
-            if index == 0:
-                if tag[0] == 'I':
-                    result[index] = (token, 'B' + tag[1:])
-                else:
-                    continue
-            elif tag != 'O':
-                # когда I-тег находиться не в середине, превращаем его в 'O'
-                # (согласно шаблонам он не может оказаться начальным)
-                if tag[0] == 'I':
-                    prev_tuple = result[index - 1]
-                    prev_token, prev_tag = prev_tuple
-                    #next_tuple = result[index + 1]
-                    # next_token, next_tag = next_tuple
-                    if prev_tag == 'O':
-                        result[index] = (token, 'O')
-                # преобразует начальный тег в серединный, если он оказывается внутри выражения
-                elif tag[0] == 'B':
-                    prev_tuple = result[index - 1]
-                    prev_token, prev_tag = prev_tuple
-                    if prev_tag != 'O':
-                        result[index] = (token, 'I'+tag[1:])
-                # заменяем B-DATENUM на B-DATE
-                elif tag[-1] == 'M':
-                    result[index] = (token, tag[:4])
-                # добавляем "-" в названия тегов
+        # добавляем "B-, I-" в названия тегов
         for index, token_tuple in enumerate(result):
             token, tag = token_tuple
             if tag != 'O':
-                result[index] = (token, tag[0] + '-' + tag[1:])
+                if index == 0:
+                    result[index] = (token, 'B-' + tag)
+                else:
+                    prev_token, prev_tag = result[index-1]
+                    if prev_tag == 'O':
+                        result[index] = (token, 'B-' + tag)
+                    else:
+                        result[index] = (token, 'I-' + tag)
+
         return result
 
     def model(self, rulesResult):

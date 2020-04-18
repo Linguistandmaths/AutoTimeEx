@@ -20,6 +20,7 @@ m I-DURATION, I-TIME
 M I-DURATION, I-TIME
 
 \. I-DATE, I-TIME
+\- I-TIME
 a I-SET, I-TIME
 
 дни недели в полной форме B-DATE, I-SET,

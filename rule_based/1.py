@@ -60,7 +60,7 @@ class TimeEx:
                     prev_token, prev_tag = prev_tuple
                     #next_tuple = result[index + 1]
                     # next_token, next_tag = next_tuple
-                    if (prev_tag == 'O') and (next_tag == 'O'):
+                    if prev_tag == 'O':
                         result[index] = (token, 'O')
                 # преобразует начальный тег в серединный, если он оказывается внутри выражения
                 elif tag[0] == 'B':

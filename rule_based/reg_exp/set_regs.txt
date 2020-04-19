@@ -1,0 +1,2 @@
+(?P<B-SET>weekly|monthly|hourly|yearly|annually|daily|every|each|twice|once|three|four|five)
+(?P<I-SET>a|times|day|month|year|morning|evening|afternoon|week|[Jj]anuary|[Ff]ebruary|[Mm]arch|[Aa]pril|[Mm]ay|[Jj]une|[Jj]uly|[Aa]ugust|[Ss]eptember|[Oo]ctober|[Nn]ovember|[Dd]ecember|[Mm]onday|[Tt]uesday|[Ww]ednesday|[Tt]hursday|[Ff]riday|[Ss]aturday|[Ss]unday)

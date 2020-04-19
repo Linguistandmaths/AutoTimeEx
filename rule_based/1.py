@@ -1,4 +1,5 @@
 import re
+import json
 from nltk.tokenize import WordPunctTokenizer
 
 
@@ -6,16 +7,14 @@ class TimeEx:
 
     def __init__(self):
         self.tk = WordPunctTokenizer()
-        with open('reg_exp/test_regexs.txt', encoding='utf-8') as file:
+        with open('reg_exp/regexs_all.txt', encoding='utf-8') as file:
             whole_pattern_list = file.read().split('\n')
         self.whole_pattern = '|'.join(whole_pattern_list)
 
         self._special_tags = ['PUNCT', 'MONTH', 'WEEKDAY', 'TWODIGIT', 'FOURDIGIT']
 
-        self._mappings = {
-            'TWODIGIT PUNCT TWODIGIT PUNCT FOURDIGIT': 'DATE',
-            'TWODIGIT PUNCT TWODIGIT PUNCT TWODIGIT': 'DATE'
-        }
+        with open('map.json', encoding='utf-8') as mapp:
+        self._mappings = json.load(mapp)
 
     def extract(self, text):
         """основная функция, которая вызывает другие и выдает конечный результат"""

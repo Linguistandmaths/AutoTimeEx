@@ -14,7 +14,7 @@ class TimeEx:
         self._special_tags = ['PUNCT', 'MONTH', 'WEEKDAY', 'TWODIGIT', 'FOURDIGIT']
 
         with open('map.json', encoding='utf-8') as mapp:
-        self._mappings = json.load(mapp)
+            self._mappings = json.load(mapp)
 
     def extract(self, text):
         """основная функция, которая вызывает другие и выдает конечный результат"""

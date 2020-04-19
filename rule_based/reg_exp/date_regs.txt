@@ -8,6 +8,7 @@
 (?P<I-DATE>,)
 (?P<I-DATE>first|second|third|forth|fifth|sixth|seventh|eighth|ninth|tenth|eleventh|twelfth|thirteenth|fourteenth|fifteenth|sixteenth|seventeenth|eighteenth|nineteenth|twentieth|twenty|thirtieth|thirty-first)
 (?P<B-DATE>[Jj]anuary|[Ff]ebruary|[Mm]arch|[Aa]pril|[Mm]ay|[Jj]une|[Jj]uly|[Aa]ugust|[Ss]eptember|[Oo]ctober|[Nn]ovember|[Dd]ecember|[Jj]an|[Ff]eb|[Mm]ar|[Aa]pr|[Aa]ug|[Ss]ept|[Oo]ct|[Nn]ov|[Dd]ec)
+(?P<I-DATE>[Jj]anuary|[Ff]ebruary|[Mm]arch|[Aa]pril|[Mm]ay|[Jj]une|[Jj]uly|[Aa]ugust|[Ss]eptember|[Oo]ctober|[Nn]ovember|[Dd]ecember|[Jj]an|[Ff]eb|[Mm]ar|[Aa]pr|[Aa]ug|[Ss]ept|[Oo]ct|[Nn]ov|[Dd]ec)
 (?P<B-DATE>0[1-9]|[12][0-9]|3[01]|[1-9])
 (?P<B-DATE>the)
 (?P<I-DATE>([1-9]|[12][0-9]|3[01])(st|th|d))

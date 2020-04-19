@@ -1,7 +1,6 @@
 import re
 import json
 from nltk.tokenize import WordPunctTokenizer
-# was born in 2000
 
 
 class TimeEx:

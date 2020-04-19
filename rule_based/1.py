@@ -11,7 +11,7 @@ class TimeEx:
         self.tk = WordPunctTokenizer()
         with open('reg_exp/regexs_all.txt', encoding='utf-8') as file:
             whole_pattern_list = file.read().split('\n')
-        self.whole_pattern = "^(" + '|'.join(whole_pattern_list) + ")"
+        self.whole_pattern = '|'.join(whole_pattern_list)
 
         # названия групп
         self._special_tags = []
@@ -82,7 +82,7 @@ class TimeEx:
                 if len(sequence) > 0:
                     sequence = ' '.join(sequence)
                     # если последовательность есть маппинге временных тэгов, то запоминаем этот временной тэг
-                    if sequence in self._mapping:
+                    if sequence in self._mappings:
                         time_tag = self._mappings[sequence]
                         # идём по токенам, которые нашли и проставляем тэг, найденный на прошлом этапе
                         for num, sequence_token in enumerate(sequence_tokens):
@@ -95,6 +95,7 @@ class TimeEx:
                         time_tag = 'O'
                         for sequence_token in sequence_tokens:
                             processed_tokens.append((sequence_token, time_tag))
+                        processed_tokens.append((token, token_tag))
                     sequence = []
                     sequence_tokens = []
                 # если у токена нет тэга и мы не нашли до этого последовательность тэгов,
@@ -107,7 +108,7 @@ class TimeEx:
                     sequence.append(token_tag)
                     sequence_tokens.append(token)
                     sequence = ' '.join(sequence)
-                    if sequence in self._mapping:
+                    if sequence in self._mappings:
                         time_tag = self._mappings[sequence]
                         # идём по токенам, которые нашли и проставляем тэг, найденный на прошлом этапе
                         for num, sequence_token in enumerate(sequence_tokens):

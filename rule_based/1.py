@@ -4,6 +4,7 @@ from nltk.tokenize import WordPunctTokenizer
 
 
 class TimeEx:
+    """ Класс для определения типа временного выражения"""
 
     def __init__(self):
         self.tk = WordPunctTokenizer()
@@ -17,7 +18,11 @@ class TimeEx:
             self._mappings = json.load(mapp)
 
     def extract(self, text):
-        """основная функция, которая вызывает другие и выдает конечный результат"""
+        """
+        основная функция, которая вызывает другие и выдает конечный результат
+        :param text: строка
+        :return: кортеж (токен, тег)
+        """
         rulesResult = self.rules(text)
         modelResult = self.model(rulesResult)
         merged = self.merge(rulesResult, modelResult)

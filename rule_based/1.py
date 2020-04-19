@@ -10,12 +10,16 @@ class TimeEx:
         self.tk = WordPunctTokenizer()
         with open('reg_exp/regexs_all.txt', encoding='utf-8') as file:
             whole_pattern_list = file.read().split('\n')
-        self.whole_pattern = '|'.join(whole_pattern_list)
+        self.whole_pattern = "^(" + '|'.join(whole_pattern_list) + ")"
 
-        self._special_tags = ['PUNCT', 'MONTH', 'WEEKDAY', 'TWODIGIT', 'FOURDIGIT']
+        # названия групп
+        self._special_tags = []
+        for tag in re.findall(r'\?P<\w{1,}>', self.whole_pattern):
+            self._special_tags.append(tag.strip('<>?P'))
 
+        # загружаем из файла соотношение последовательностей с типами временных выражений
         with open('map.json', encoding='utf-8') as mapp:
-            self._mappings = json.load(mapp)
+            self._mappings = dict(json.load(mapp))
 
     def extract(self, text):
         """

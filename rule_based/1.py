@@ -89,13 +89,12 @@ class TimeEx:
                                 processed_tokens.append((sequence_token, 'B-{}'.format(time_tag)))
                             else:
                                 processed_tokens.append((sequence_token, 'I-{}'.format(time_tag)))
-                        processed_tokens.append((token, token_tag))
                     # если последовательности нет в маппинге, то проставляем "O"
                     else:
                         time_tag = 'O'
                         for sequence_token in sequence_tokens:
                             processed_tokens.append((sequence_token, time_tag))
-                        processed_tokens.append((token, token_tag))
+                    processed_tokens.append((token, token_tag))
                     sequence = []
                     sequence_tokens = []
                 # если у токена нет тэга и мы не нашли до этого последовательность тэгов,

@@ -1,3 +1,0 @@
-(?P<FOURDIGIT>\d{4})
-(?P<TWODIGIT>\d{2})
-(?P<PUNCT>[\-\.])

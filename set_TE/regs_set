@@ -1,5 +1,0 @@
-(?P<B-SET>weekly|monthly|hourly|yearly|annually|daily)
-(?P<B-SET>every) (?P<I-SET>day|month|year|morning|evening|afternoon|week)
-(?P<B-SET>twice|once) (?P<I-SET>a) (?P<I-SET>day|week|month|year)
-(?P<B-SET>three|four|five) (?P<I-SET>times) (?P<I-SET>a) (?P<I-SET>day|week|month|year)
-(?P<B-SET>each) (?P<I-SET>month|year|July|January|February|March|April|May|June|August|September|October|November|December|Thursday|Monday|Tuesday|Wednesday|Saturday|Sunday|Friday)

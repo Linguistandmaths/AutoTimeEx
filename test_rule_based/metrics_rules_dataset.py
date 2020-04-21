@@ -45,10 +45,10 @@ class DatasetLoader:
                         for pred in data[i]:
                             token, pred_tag = pred
                             if row['token'] == token:
-                                writer.writerow({str(column_name): pred_tag})
+                                writer.writerow({'token':token, 'tag' ,str(column_name): pred_tag})
                                 break
                             else:
-                                writer.writerow({str(column_name): ''})
+                                row[str(column_name)] = ''
                                 continue
 
 

@@ -45,11 +45,12 @@ class DatasetLoader:
                         for pred in data[i]:
                             token, pred_tag = pred
                             if row['token'] == token:
-                                writer.writerow({'token':token, 'tag' ,str(column_name): pred_tag})
+                                new_row = row.copy()
                                 break
                             else:
                                 row[str(column_name)] = ''
                                 continue
+                        writer.writerow(new_row)
 
 
 # get results

@@ -38,14 +38,15 @@ class DatasetLoader:
             with open(os.path.join(self._path_to_data_dir, data_file), 'r') as data_f:
                 reader = csv.DictReader(data_f)
                 with open(os.path.join(self._path_to_data_dir, data_file), 'w', encoding='utf-8', newline='') as task:
-                    fieldnames = ['token', 'tag', 'predicted_rules_tag']
+                    fieldnames = ['token', 'tag', column_name]
                     writer = csv.DictWriter(task, fieldnames=fieldnames)
                     writer.writeheader()
                     for row in reader:
+                        new_row = row.copy()
                         for pred in data[i]:
                             token, pred_tag = pred
                             if row['token'] == token:
-                                new_row = row.copy()
+                                row[str(column_name)] = pred_tag
                                 break
                             else:
                                 row[str(column_name)] = ''

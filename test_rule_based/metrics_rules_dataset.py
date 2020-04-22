@@ -37,20 +37,17 @@ class DatasetLoader:
         for i, data_file in tqdm(enumerate(self._data_files), desc='Adding data'):
             with open(os.path.join(self._path_to_data_dir, data_file), 'r') as data_f:
                 reader = csv.DictReader(data_f)
-                with open(os.path.join(self._path_to_data_dir, data_file), 'w', encoding='utf-8', newline='') as task:
+                with open(os.path.join(self._path_to_data_dir, '/rules', data_file), 'w', encoding='utf-8', newline='') as task:
                     fieldnames = ['token', 'tag', column_name]
                     writer = csv.DictWriter(task, fieldnames=fieldnames)
                     writer.writeheader()
-                    for row in reader:
+                    for num, row in enumerate(reader):
                         new_row = row.copy()
-                        for pred in data[i]:
-                            token, pred_tag = pred
-                            if row['token'] == token:
-                                row[str(column_name)] = pred_tag
-                                break
-                            else:
-                                row[str(column_name)] = ''
-                                continue
+                        token, pred_tag = data[i][num]
+                        if row['token'] == token:
+                            new_row[str(column_name)] = pred_tag
+                        else:
+                            new_row[str(column_name)] = ''
                         writer.writerow(new_row)
 
 

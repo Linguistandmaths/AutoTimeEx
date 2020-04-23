@@ -7,52 +7,6 @@ from seqeval.metrics import classification_report
 from tqdm import tqdm
 
 
-class DatasetLoader:
-
-    def __init__(self, path_to_data_dir):
-        self._path_to_data_dir = path_to_data_dir
-        self._data_files = sorted(os.listdir(self._path_to_data_dir))
-
-    def load_dataset(self):
-        """
-        загружает датасет из папки, путь к которой указывали в path_to_data_dir
-        :return: список из (списоков кортежей (токен, тег) по одному на каждый файл)
-        """
-        texts = []
-        for data_file in tqdm(self._data_files, desc='Loading data'):
-            with open(os.path.join(self._path_to_data_dir, data_file), 'r') as data_f:
-                reader = csv.DictReader(data_f)
-                sentence = []
-                for row in reader:
-                    sentence.append(row['token'])
-                texts.append(sentence)
-        return texts
-
-    def add_to_dataset(self, data, column_name):
-        """
-        функция, которая записывает новую информацию в датасет
-        :param data: список из списков кортежей (токен,  тег)
-        :return:
-        """
-        for i, data_file in tqdm(enumerate(self._data_files), desc='Adding data'):
-            with open(os.path.join(self._path_to_data_dir, data_file), 'r') as data_f:
-                reader = csv.DictReader(data_f)
-                with open(os.path.join(self._path_to_data_dir, '/rules', data_file), 'w', encoding='utf-8', newline='') as task:
-                    fieldnames = ['token', 'tag', column_name]
-                    writer = csv.DictWriter(task, fieldnames=fieldnames)
-                    writer.writeheader()
-                    for num, row in enumerate(reader):
-                        new_row = row.copy()
-                        token, pred_tag = data[i][num]
-                        if row['token'] == token:
-                            new_row[str(column_name)] = pred_tag
-                        else:
-                            new_row[str(column_name)] = ''
-                        writer.writerow(new_row)
-
-
-# get results
-
 class TimeEx:
     """ Класс для определения типа временного выражения"""
 
@@ -81,7 +35,6 @@ class TimeEx:
         modelResult = self.model(rulesResult)
         merged = self.merge(rulesResult, modelResult)
         return merged
-
 
     def rules(self, text):
         """
@@ -186,7 +139,50 @@ class TimeEx:
         return rulesResult
 
 
-# evaluate result
+class DatasetLoader:
+
+    def __init__(self, path_to_data_dir):
+        self._path_to_data_dir = path_to_data_dir
+        self._data_files = sorted(os.listdir(self._path_to_data_dir))
+
+    def load_dataset(self):
+        """
+        загружает датасет из папки, путь к которой указывали в path_to_data_dir
+        :return: список из (списоков кортежей (токен, тег) по одному на каждый файл)
+        """
+        texts = []
+        for data_file in tqdm(self._data_files, desc='Loading data'):
+            with open(os.path.join(self._path_to_data_dir, data_file), 'r') as data_f:
+                reader = csv.DictReader(data_f)
+                sentence = []
+                for row in reader:
+                    sentence.append(row['token'])
+                texts.append(sentence)
+        return texts
+
+    def add_to_dataset(self, data, column_name):
+        """
+        функция, которая записывает новую информацию в датасет
+        :param data: список из списков кортежей (токен,  тег)
+        :return:
+        """
+        for i, data_file in tqdm(enumerate(self._data_files), desc='Adding data'):
+            with open(os.path.join(self._path_to_data_dir, data_file), 'r') as data_f:
+                reader = csv.DictReader(data_f)
+                with open(os.path.join(self._path_to_data_dir, '/rules', data_file), 'w', encoding='utf-8', newline='') as task:
+                    fieldnames = ['token', 'tag', column_name]
+                    writer = csv.DictWriter(task, fieldnames=fieldnames)
+                    writer.writeheader()
+                    for num, row in enumerate(reader):
+                        new_row = row.copy()
+                        token, pred_tag = data[i][num]
+                        if row['token'] == token:
+                            new_row[str(column_name)] = pred_tag
+                        else:
+                            new_row[str(column_name)] = ''
+                        writer.writerow(new_row)
+
+
 class Evaluator:
     """ Класс для оценки качества извлечения временных выражений """
 

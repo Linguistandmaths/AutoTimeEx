@@ -182,7 +182,6 @@ class DatasetLoader:
                             new_row[str(column_name)] = ''
                         writer.writerow(new_row)
 
-
 class Evaluator:
     """ Класс для оценки качества извлечения временных выражений """
 

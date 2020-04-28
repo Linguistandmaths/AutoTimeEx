@@ -8,7 +8,7 @@ class TimeEx:
 
     def __init__(self):
         self.tk = WordPunctTokenizer()
-        with open('reg_exp/regexs_all.txt', encoding='utf-8') as file:
+        with open('regexs_all.txt', encoding='utf-8') as file:
             whole_pattern_list = file.read().split('\n')
         self.whole_pattern = '|'.join(whole_pattern_list)
 
